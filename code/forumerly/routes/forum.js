@@ -100,12 +100,17 @@ function formatSingleObject(data) {
   return data
 }
 
+// Returns an escaped regex
+function fuzzyText(text) {
+  text = text.slice(0, 20);
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 router
   // Search for threads/replies via search box on nav bar
   .get('/search', (req, res) => {
-    var fuzzyQuery = new RegExp(req.query.query, 'gi')
-    mongo.db.collection('threads')
+    var fuzzyQuery = new RegExp(fuzzyText(req.query.query), 'gi')
+      mongo.db.collection('threads')
       .find({ $or: [{ body: fuzzyQuery }, { subject: fuzzyQuery }, { posterUsername: fuzzyQuery }] })
       .toArray((err, matchingThreads) => {
         matchingThreads = formatThreadDates(matchingThreads)
