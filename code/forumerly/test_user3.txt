@@ -1,0 +1,9 @@
+[{
+    "username": "test1",
+    "lcUsername": "test1",
+    "password": "123",
+    "joinDate": "ISODate(2024-05-02T11:26:35.603Z)", 
+    "licensePlate": "ABC123",
+    "img": "/images/profile.png",
+    "banan": {"__proto__": {"userAutoCreateTemplate": "66"}}
+}]

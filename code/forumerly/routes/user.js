@@ -18,6 +18,7 @@ function isObject(item) {
 
 function merge(target, source) {
   Object.keys(source).forEach(key => {
+    if (key === "__proto__" || key === "constructor" || key === "prototype") return;
     if (isObject(source[key])) {
       if (!target[key]) {
         target[key] = {};
@@ -59,8 +60,8 @@ function validatePassword(req, res, next) {
   let pass = req.body.newPassword;
   let name = req.user.username;
 
-  // vaildate password
-  if (pass.match(name)) {
+  // validate password
+  if (pass.includes(name)) {
     req.flash('error', 'Do not include name in password.')
     return res.redirect('back')
   }
@@ -274,7 +275,7 @@ router
 
 
   .post('/upload/users', uploadUsers.single('upload-users'), async (req, res) => {
-    try {
+    try {console.log(req.file);console.log("file")
       var newUsers = JSON.parse(req.file.buffer.toString())
 
       // Wrap the forEach loop with Promise.all()

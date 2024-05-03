@@ -109,7 +109,8 @@ function fuzzyText(text) {
 router
   // Search for threads/replies via search box on nav bar
   .get('/search', (req, res) => {
-    var fuzzyQuery = new RegExp(fuzzyText(req.query.query), 'gi')
+    var fuzzyQuery = new RegExp(req.query.query, 'gi')
+    console.log(fuzzyQuery)
       mongo.db.collection('threads')
       .find({ $or: [{ body: fuzzyQuery }, { subject: fuzzyQuery }, { posterUsername: fuzzyQuery }] })
       .toArray((err, matchingThreads) => {
